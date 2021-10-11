@@ -3,39 +3,38 @@
 #include <string.h>
 #include <stdlib.h>
 
-int lite_vec_init(lite_vec_t *obj, size_t dtype_size){
-    void *data_ptr = malloc(dtype_size);
+int lite_vec_init(lite_vec_t *self){
+    void *data_ptr = malloc(1);
     if (!data_ptr) return -1;
 
-    obj->len = 0;
-    obj->capacity = 1;
-    obj->dtype_size = dtype_size;
-    obj->data_ptr = data_ptr;
+    self->len = 0;
+    self->capacity = 1;
+    self->data_ptr = data_ptr;
 
     return 0;
 }
 
-int lite_vec_push(lite_vec_t *obj, void *val_ptr){
-    size_t new_len = obj->len + 1;
-    if (new_len > obj->capacity){
-        size_t new_capacity = obj->capacity * 2;
-        void *new_data_pointer = realloc(obj->data_ptr, new_capacity * obj->dtype_size);
+int lite_vec_push(lite_vec_t *self, void *val_ptr, size_t n){
+    size_t old_len = self->len;
+    size_t new_len = old_len + n;
+    if (new_len > self->capacity){
+        size_t new_capacity = self->capacity;
+        do {
+            new_capacity *= 2;
+        } while(new_capacity < new_len);
+        void *new_data_pointer = realloc(self->data_ptr, new_capacity);
         if (!new_data_pointer) return -1;
 
-        obj->data_ptr = new_data_pointer;
-        obj->capacity = new_capacity;
+        self->data_ptr = new_data_pointer;
+        self->capacity = new_capacity;
     }
-    obj->len = new_len;
+    self->len = new_len;
 
-    memcpy(obj->data_ptr + ((obj->len - 1) * obj->dtype_size), val_ptr, obj->dtype_size);
+    memcpy(self->data_ptr + old_len, val_ptr, n);
 
     return 0;
 }
 
-void *lite_vec_get(lite_vec_t *obj, size_t idx){
-    return obj->data_ptr + (idx * obj->dtype_size);
-}
-
-void lite_vec_destroy(lite_vec_t *obj){
-    free(obj->data_ptr);
+void lite_vec_destroy(lite_vec_t *self){
+    free(self->data_ptr);
 }
