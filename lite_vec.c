@@ -3,15 +3,10 @@
 #include <string.h>
 #include <stdlib.h>
 
-int lite_vec_init(lite_vec_t *self){
-    void *data_ptr = malloc(1);
-    if (!data_ptr) return -1;
-
+void lite_vec_init(lite_vec_t *self){
     self->len = 0;
-    self->capacity = 1;
-    self->data_ptr = data_ptr;
-
-    return 0;
+    self->capacity = 0;
+    self->data_ptr = NULL;
 }
 
 int lite_vec_push(lite_vec_t *self, void *val_ptr, size_t n){
@@ -19,10 +14,18 @@ int lite_vec_push(lite_vec_t *self, void *val_ptr, size_t n){
     size_t new_len = old_len + n;
     if (new_len > self->capacity){
         size_t new_capacity = self->capacity;
-        do {
+        if (new_capacity == 0){
+            new_capacity = 1;
+        }
+        while(new_capacity < new_len) {
             new_capacity *= 2;
-        } while(new_capacity < new_len);
-        void *new_data_pointer = realloc(self->data_ptr, new_capacity);
+        }
+        void *new_data_pointer;
+        if (self->data_ptr){
+            new_data_pointer = realloc(self->data_ptr, new_capacity);
+        } else {
+            new_data_pointer = malloc(new_capacity);
+        }
         if (!new_data_pointer) return -1;
 
         self->data_ptr = new_data_pointer;

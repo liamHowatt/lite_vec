@@ -1,5 +1,6 @@
 #include "lite_vec.h"
 #include <stdio.h>
+#include <assert.h>
 
 int main(){
     lite_vec_t vec;
@@ -7,7 +8,7 @@ int main(){
 
     for(int i=1; i<11; i++){
         double val = 3.14 * i;
-        lite_vec_push(&vec, &val, sizeof(double));
+        assert(lite_vec_push(&vec, &val, sizeof(double)) == 0);
     }
 
     double *vals = vec.data_ptr;
