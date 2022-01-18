@@ -21,11 +21,7 @@ int lite_vec_push(lite_vec_t *self, void *val_ptr, size_t n){
             new_capacity *= 2;
         }
         void *new_data_pointer;
-        if (self->data_ptr){
-            new_data_pointer = realloc(self->data_ptr, new_capacity);
-        } else {
-            new_data_pointer = malloc(new_capacity);
-        }
+        new_data_pointer = realloc(self->data_ptr, new_capacity);
         if (!new_data_pointer) return -1;
 
         self->data_ptr = new_data_pointer;
