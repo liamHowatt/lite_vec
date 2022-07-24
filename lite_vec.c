@@ -2,10 +2,15 @@
 #include <string.h>
 #include <stdlib.h>
 
-void lite_vec_init(lite_vec_t *self){
-    self->len = 0;
-    self->capacity = 0;
-    self->data_ptr = NULL;
+lite_vec_t *lite_vec_new(){
+    lite_vec_t *new = malloc(sizeof(lite_vec_t));
+    if (!new) {
+        return NULL;
+    }
+    new->len = 0;
+    new->capacity = 0;
+    new->data_ptr = NULL;
+    return new;
 }
 
 int lite_vec_push(lite_vec_t *self, void *val_ptr, size_t n){
@@ -35,4 +40,5 @@ int lite_vec_push(lite_vec_t *self, void *val_ptr, size_t n){
 
 void lite_vec_destroy(lite_vec_t *self){
     free(self->data_ptr);
+    free(self);
 }
