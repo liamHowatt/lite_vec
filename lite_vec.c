@@ -2,6 +2,12 @@
 #include <string.h>
 #include <stdlib.h>
 
+typedef struct lite_vec_t{
+    size_t len;
+    size_t capacity;
+    void *data_ptr;
+} lite_vec_t;
+
 lite_vec_t *lite_vec_new(){
     lite_vec_t *new = malloc(sizeof(lite_vec_t));
     if (!new) {
@@ -36,6 +42,14 @@ int lite_vec_push(lite_vec_t *self, void *val_ptr, size_t n){
     memcpy(self->data_ptr + old_len, val_ptr, n);
 
     return 0;
+}
+
+void *lite_vec_data(lite_vec_t *self) {
+    return self->data_ptr;
+}
+
+size_t lite_vec_len(lite_vec_t *self) {
+    return self->len;
 }
 
 void lite_vec_destroy(lite_vec_t *self){

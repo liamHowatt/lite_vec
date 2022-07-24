@@ -11,8 +11,8 @@ int main(){
         assert(lite_vec_push(vec, &val, sizeof(double)) == 0);
     }
 
-    double *vals = vec->data_ptr;
-    int num_vals = vec->len / sizeof(double);
+    double *vals = lite_vec_data(vec);
+    int num_vals = lite_vec_len(vec) / sizeof(double);
     for(int i=0; i<num_vals; i++){
         double val = vals[i];
         printf("%lf\n", val);
