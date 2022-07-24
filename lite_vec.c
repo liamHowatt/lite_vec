@@ -19,7 +19,7 @@ lite_vec_t *lite_vec_new(){
     return new;
 }
 
-int lite_vec_push(lite_vec_t *self, void *val_ptr, size_t n){
+bool lite_vec_push(lite_vec_t *self, void *val_ptr, size_t n){
     size_t old_len = self->len;
     size_t new_len = old_len + n;
     if (new_len > self->capacity){
@@ -32,7 +32,7 @@ int lite_vec_push(lite_vec_t *self, void *val_ptr, size_t n){
         }
         void *new_data_pointer;
         new_data_pointer = realloc(self->data_ptr, new_capacity);
-        if (!new_data_pointer) return -1;
+        if (!new_data_pointer) return false;
 
         self->data_ptr = new_data_pointer;
         self->capacity = new_capacity;
@@ -41,7 +41,7 @@ int lite_vec_push(lite_vec_t *self, void *val_ptr, size_t n){
 
     memcpy(self->data_ptr + old_len, val_ptr, n);
 
-    return 0;
+    return true;
 }
 
 void *lite_vec_data(lite_vec_t *self) {

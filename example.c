@@ -8,7 +8,7 @@ int main(){
 
     for(int i=1; i<11; i++){
         double val = 3.14 * i;
-        assert(lite_vec_push(vec, &val, sizeof(double)) == 0);
+        assert(lite_vec_push(vec, &val, sizeof(double)));
     }
 
     double *vals = lite_vec_data(vec);
