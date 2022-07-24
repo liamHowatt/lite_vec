@@ -1,5 +1,4 @@
 #include "lite_vec.h"
-#include <stddef.h>
 #include <string.h>
 #include <stdlib.h>
 
